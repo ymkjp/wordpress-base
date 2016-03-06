@@ -1,0 +1,22 @@
+---
+- name: Install WordPress, MySQL, Nginx, and PHP-FPM
+  hosts: wordpress_server
+  remote_user: root
+  become: yes
+  vars_prompt:
+      - name: mysql_root_password
+        prompt: MySQL Root User's Password
+        private: yes
+        confirm: yes
+        when: mysql_root_password == "" or mysql_root_password is undefined
+      - name: wp_db_password
+        prompt: WordPress Database's Password
+        private: yes
+        confirm: yes
+        when: wp_db_password == "" or wp_db_password is undefined
+  roles:
+    - common
+    - mysql
+    - nginx
+    - php-fpm
+    - wordpress

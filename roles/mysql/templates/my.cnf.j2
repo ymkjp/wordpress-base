@@ -1,0 +1,48 @@
+[client]
+socket  = /var/lib/mysql/mysql.sock
+port    = {{ mysql_port }}
+connect-expired-password
+default-character-set = utf8
+
+[mysqld]
+# General
+datadir = /var/lib/mysql
+socket  = /var/lib/mysql/mysql.sock
+port  = {{ mysql_port }}
+user  = mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links  = 0
+loose-default_password_lifetime = 0
+explicit_defaults_for_timestamp = 1
+
+# Log
+log_output          = FILE
+expire_logs_days    = 7
+general_log         = ON
+general_log_file    = /var/log/mysql-query.log
+slow_query_log      = ON
+slow_query_log_file = /var/log/mysql-slow.log
+long_query_time     = 1
+
+# Characters
+character-set-server  = utf8mb4
+collation-server      = utf8mb4_general_ci
+
+# InnoDB
+# innodb_buffer_pool_size: RAM size 2048 MB (2G) * 0.5 = 1024 MB
+# innodb_log_file_size: innodb_buffer_pool_size * 0.2 = 256 MB
+default-storage-engine          = InnoDB
+innodb_buffer_pool_size         = {{innodb_buffer_pool_size|default(1024)}}
+innodb_log_file_size            = {{innodb_log_file_size|default(256)}}
+innodb_stats_on_metadata        = off
+innodb_change_buffering         = changes
+innodb_file_format              = Barracuda
+innodb_file_per_table           = 1
+innodb_large_prefix
+
+[mysqldump]
+quick
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
