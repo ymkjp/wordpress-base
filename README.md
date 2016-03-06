@@ -24,3 +24,6 @@ vagrant up
 vagrant provision
 vagrant destroy
 ```
+
+#### Vagrant Box
+* https://dl.dropboxusercontent.com/u/6998388/wordpress-base/package.box
