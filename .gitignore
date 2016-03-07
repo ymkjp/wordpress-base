@@ -1,3 +1,7 @@
+# Provision files
+credentials.yml
+*.retry
+
 *.log
 .htaccess
 sitemap.xml
