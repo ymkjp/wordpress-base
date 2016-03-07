@@ -1,19 +1,34 @@
-# @TODO PHP v5.6.18
+
 ---
+- name: Register repositories
+  yum: name={{ item }} state=present
+  with_items:
+    - https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+    - https://mirror.webtatic.com/yum/el6/latest.rpm
+
 - name: Install php-fpm and deps
   yum: name={{ item }} state=present
   with_items:
-    - php
-    - php-fpm
-    - php-enchant
-    - php-IDNA_Convert
-    - php-mbstring
-    - php-mysql
-    - php-PHPMailer
-    - php-process
-    - php-simplepie
-    - php-xml
-    - php-mcrypt
+    - php56w
+    - php56w-bcmath
+    - php56w-cli
+    - php56w-common
+    - php56w-dba
+    - php56w-devel
+    - php56w-embedded
+    - php56w-enchant
+    - php56w-fpm
+    - php56w-mbstring
+    - php56w-mcrypt
+    - php56w-mysql
+    - php56w-opcache
+    - php56w-pdo
+    - php56w-pspell
+    - php56w-phpdbg
+    - php56w-process
+    - php56w-recode
+    - php56w-xml
+    - php56w-xmlrpc
 
 - name: Disable default pool
   command: mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.disabled creates=/etc/php-fpm.d/www.disabled
