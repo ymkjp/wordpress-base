@@ -14,7 +14,15 @@ brew update && brew install \
 ```
 
 #### Setup
-* Edit `credentials.yml` to set your password
+* Edit `credentials.yml` to set your passwords and API Keys
+
+```ruby
+wp_db_password:       "__YOUR_PASSWORD__"
+mysql_root_password:  "__YOUR_PASSWORD__"
+newrelic_api_key:     "__YOUR_LICENSE_KEY__"
+```
+
+* Install Ansible, and run Vagrant commands
 
 ```bash
 # Install Ansible
