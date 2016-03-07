@@ -1,3 +1,4 @@
+# https://docs.newrelic.com/docs/agents/php-agent/advanced-installation/silent-mode-install-script-advanced
 ---
   - name: get repo
     become: yes
@@ -7,12 +8,18 @@
 
   - name: yum install
     become: yes
-    yum: state=installed pkg=newrelic-sysmond
+    yum: state=installed pkg={{item}}
+    with_items:
+      - newrelic-sysmond
+      - newrelic-php5
 
-  - name: set api key
+  - name: Set API key and install agents
     become: yes
     shell: |
-      nrsysmond-config --set license_key={{newrelic_api_key}}
+      export NR_INSTALL_KEY={{ newrelic_license_key }} \
+      && export NR_INSTALL_SILENT=1 \
+      && nrsysmond-config --set license_key={{ newrelic_license_key }} \
+      && newrelic-install install
 
   - name: start
     become: yes
