@@ -14,9 +14,15 @@
         private: yes
         confirm: yes
         when: wp_db_password == "" or wp_db_password is undefined
+      - name: newrelic_api_key
+        prompt: NewRelic's License Key
+        private: yes
+        confirm: yes
+        when: newrelic_api_key == "" or newrelic_api_key is undefined
   roles:
     - common
     - mysql
     - nginx
     - php-fpm
     - wordpress
+    - newrelic
