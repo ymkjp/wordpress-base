@@ -18,13 +18,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.memory = "2048"
     end
 
-    node.push.define :atlas do |push|
-      push.app = "ymkjp/wordpress-base"
-    end
-
     node.vm.provision :ansible do |ansible|
       ansible.playbook = "site.yml"
       ansible.extra_vars = "@credentials.yml"
     end
+  end
+
+  config.push.define :atlas do |push|
+    push.app = "ymkjp/wordpress-base"
   end
 end
