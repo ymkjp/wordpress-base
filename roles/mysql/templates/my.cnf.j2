@@ -1,6 +1,6 @@
 [client]
 socket  = /var/lib/mysql/mysql.sock
-port    = {{ mysql_port }}
+port    = {{ mysql_port | default(3306)}}
 connect-expired-password
 default-character-set = utf8
 
@@ -8,7 +8,7 @@ default-character-set = utf8
 # General
 datadir = /var/lib/mysql
 socket  = /var/lib/mysql/mysql.sock
-port  = {{ mysql_port }}
+port  = {{ mysql_port | default(3306) }}
 user  = mysql
 # Disabling symbolic-links is recommended to prevent assorted security risks
 symbolic-links  = 0

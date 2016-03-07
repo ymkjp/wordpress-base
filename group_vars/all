@@ -6,7 +6,6 @@ wp_sha256sum: 42ca594afc709cbef8528a6096f5a1efe96dcf3164e7ce321e87d57ae015cc82
 # These are the WordPress database settings
 wp_db_name: wordpress
 wp_db_user: wp_db_user
-mysql_port: 3306
 mysql_url: "http://dev.mysql.com/get/Downloads/MySQL-5.6"
 mysql_ver: "5.6.29-1.el6.x86_64"
 
