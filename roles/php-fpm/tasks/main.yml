@@ -1,5 +1,6 @@
+# @TODO PHP v5.6.18
 ---
-- name: Install php-fpm and deps 
+- name: Install php-fpm and deps
   yum: name={{ item }} state=present
   with_items:
     - php
