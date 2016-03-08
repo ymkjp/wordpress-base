@@ -26,7 +26,6 @@ admin_password:       "__YOUR_PASSWORD__"
 wp_db_password:       "__YOUR_PASSWORD__"
 mysql_root_password:  "__YOUR_PASSWORD__"
 newrelic_api_key:     "__YOUR_API_KEY__"
-newrelic_license_key: "__YOUR_LICENSE_KEY__"
 ```
 
 2. Install Ansible to your local client
@@ -76,7 +75,5 @@ $ ansible-playbook -i hosts site.yml -k
 #### Tips
 
 ```bash
-$ $ TARGET_TASK_NAME="Install Mysql packages" \
-    ansible-playbook --start-at "${TASK_NAME}" \
-    --extra-vars "@credentials.yml" site.yml
+$ ansible-playbook --start-at='Set up iptables rules' --extra-vars "@credentials.yml" site.yml
 ```
