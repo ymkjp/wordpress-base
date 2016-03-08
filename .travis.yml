@@ -6,4 +6,4 @@ before_install:
  - sudo apt-get install -qq python-apt python-pycurl
 script:
   - echo localhost > inventory
-  - ansible-playbook --syntax-check -i inventory role.yml
+  - ansible-playbook --syntax-check -i inventory site.yml
