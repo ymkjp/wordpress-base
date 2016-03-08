@@ -1,4 +1,5 @@
 # Provision files
+!.travis.yml
 credentials.yml
 *.retry
 

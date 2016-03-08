@@ -14,15 +14,27 @@
         private: yes
         confirm: yes
         when: wp_db_password == "" or wp_db_password is undefined
-      - name: newrelic_api_key
+      - name: newrelic_license_key
         prompt: NewRelic's License Key
         private: yes
         confirm: yes
-        when: newrelic_api_key == "" or newrelic_api_key is undefined
+        when: newrelic_license_key == "" or newrelic_license_key is undefined
   roles:
     - common
     - mysql
     - nginx
     - php-fpm
     - wordpress
-    - newrelic
+    - monitoring
+
+- name: Initialize sshd_config and sudors
+  hosts: centos6_init
+  user: root
+  vars_prompt:
+    - name: admin_password
+      prompt: Admin user's password
+      private: yes
+      confirm: yes
+      when: admin_password == "" or admin_password is undefined
+  roles:
+    - centos6_init

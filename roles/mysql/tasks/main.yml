@@ -9,6 +9,8 @@
     - MySQL-devel
     - MySQL-embedded
     - MySQL-server
+  retries: 3
+  delay: 10
 
 - name: Install other packages
   yum: name={{ item }} state=present

@@ -16,6 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     node.vm.provider :virtualbox do |vb|
       vb.memory = "2048"
+      vb.cpus = "1"
     end
 
     node.vm.provision :ansible do |ansible|
