@@ -26,6 +26,12 @@
     - php-fpm
     - wordpress
     - monitoring
+    - resmo.fail2ban
+    - williamyeh.fluentd
+    - sivel.newrelic
+    - nleutner.newrelic-php
+    - geerlingguy.postfix
+    - yatesr.timezone
 
 - name: Initialize sshd_config and sudors
   hosts: centos6_init

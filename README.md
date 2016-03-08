@@ -19,7 +19,8 @@ xcode-select --install \
 
 #### Setup Client
 1. Edit `credentials.yml` to set your passwords and API Keys
-    * Run `openssl passwd -salt foo -1 bar` to generate `admin_password`.
+    * Run `openssl passwd -salt foo -1 bar` to generate `admin_password`
+
 ```ruby
 admin_password:       "__YOUR_PASSWORD__"
 wp_db_password:       "__YOUR_PASSWORD__"
