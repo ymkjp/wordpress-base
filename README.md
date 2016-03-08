@@ -1,5 +1,7 @@
 ## WordPress Base
 
+[![Build Status](https://travis-ci.org/ymkjp/wordpress-base.svg?branch=master)](https://travis-ci.org/ymkjp/wordpress-base)
+
 #### Environment
 * Ansible Host: CentOS 6.7
 * Ansible Client: Mac OS X 10.11
