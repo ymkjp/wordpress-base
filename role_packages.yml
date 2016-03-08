@@ -4,7 +4,7 @@
 # Now I'm not ignoring these roles by .gitignore to avoid unexpected updates
 
 # ```
-# $ ansible-galaxy install --role-file= role_packages.yml
+# $ ansible-galaxy install --role-file=role_packages.yml
 # ```
 
 - src: resmo.fail2ban
