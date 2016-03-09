@@ -1,12 +1,21 @@
-## WordPress Base
+WordPress Base
+===
 
 [![Build Status](https://travis-ci.org/ymkjp/wordpress-base.svg?branch=master)](https://travis-ci.org/ymkjp/wordpress-base)
 
-#### Environment
-* Ansible Host: CentOS 6.7
-* Ansible Client: Mac OS X 10.11
 
-#### Requirement
+## Introduction
+
+This Ansible playbook constructs WordPress, the FOSS content hosing server, into single node.
+
+
+## Requirements
+
+#### Environment
+* Host: CentOS 6.7
+* Client: Mac OS X 10.11
+
+#### Runtime
 - Python v2.7
 - Vagrant v1.8 (optional)
 
@@ -19,9 +28,12 @@ xcode-select --install \
   Caskroom/cask/vagrant
 ```
 
+## Setups
+
 #### Setup Client
-1. Edit `credentials.yml` to set your passwords and API Keys
+* Edit `example.credentials.yml` to set your passwords and API Keys
     * Run `openssl passwd -salt foo -1 bar` to generate `admin_password`
+* Rename the file, such as by `mv example.credentials.yml credentials.yml`
 
 ```ruby
 admin_password:       "__YOUR_PASSWORD__"
@@ -30,14 +42,14 @@ mysql_root_password:  "__YOUR_PASSWORD__"
 newrelic_api_key:     "__YOUR_API_KEY__"
 ```
 
-2. Install Ansible to your local client
+* Install Ansible to your local client
 
 ```bash
 # Install Ansible and its 3rd party packages
 $ pip install --requirement requirements.txt
 ```
 
-3. Edit ``~/.ssh/config`` corresponding to hosts (No need for Vagrant)
+* Edit ``~/.ssh/config`` corresponding to hosts (No need for Vagrant)
 
 ```bash
 $ cat <<EOF >> ~/.ssh/config
@@ -52,7 +64,7 @@ Host centos6-general001
 EOF
 ```
 
-#### Setup Vagrant
+#### Setup Vagrant Server
 
 * Run Vagrant commands after setting up
 * See Vagrant Box if you prefer
@@ -65,7 +77,7 @@ $ vagrant provision  # Run this when `vagrant up` had problem due to network err
 $ vagrant destroy --force && vagrant up  # Run this to reset everything
 ```
 
-#### Setup CentOS 6.7
+#### Setup CentOS 6 Host Server
 
 * Run commands below
 
