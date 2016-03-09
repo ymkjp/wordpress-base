@@ -15,7 +15,7 @@
     - users
     - sshd_config
 
-- name: Be sure to exist admin user
+- name: Be sure to exist admin user (Affect changes to Vagrant)
   hosts: wordpress_server
   remote_user: root
   become: yes
@@ -51,6 +51,7 @@
         when: newrelic_license_key == "" or newrelic_license_key is undefined
   roles:
     - common
+    - iptables
     - mysql
     - nginx
     - php-fpm
