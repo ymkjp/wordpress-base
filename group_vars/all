@@ -28,10 +28,10 @@ auto_up_disable: false
 core_update_level: true
 
 # Monitoring
-report_email_to: "{{ report_email_to | default('root@localhost') }}"
-fail2ban_config_destemail: "{{report_email_to}}"
+monitoring_email_dest: "{{ report_email_to | default('root@localhost') }}"
+fail2ban_config_destemail: "{{monitoring_email_dest}}"
 
-logwatch_email: "{{report_email_to}}"
+logwatch_email: "{{monitoring_email_dest}}"
 logwatch_detail: "low"            # The level of detail in the Logwatch report
 logwatch_range: "yesterday"       # The default time range for the Logwatch report
 logwatch_output: "stdout"         # The output method of the Logwatch report

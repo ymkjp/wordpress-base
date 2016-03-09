@@ -1,7 +1,37 @@
 ---
-- name: Install WordPress, MySQL, Nginx, and PHP-FPM
+
+- name: Initialize sshd_config and sudors
+  hosts: centos6_init
+  remote_user: root
+  become: yes
+  vars_prompt:
+    - name: admin_password
+      prompt: Admin user's password
+      private: yes
+      confirm: yes
+      when: admin_password == "" or admin_password is undefined
+  roles:
+    - common
+    - users
+    - sshd_config
+
+- name: Be sure to exist admin user
   hosts: wordpress_server
   remote_user: root
+  become: yes
+  vars_prompt:
+    - name: admin_password
+      prompt: Admin user's password
+      private: yes
+      confirm: yes
+      when: admin_password == "" or admin_password is undefined
+  roles:
+    - common
+    - users
+
+- name: Install WordPress, MySQL, Nginx, and PHP-FPM
+  hosts: wordpress_server
+  remote_user: admin
   become: yes
   vars_prompt:
       - name: mysql_root_password
@@ -32,15 +62,3 @@
     - nleutner.newrelic-php
     - geerlingguy.postfix
     - yatesr.timezone
-
-- name: Initialize sshd_config and sudors
-  hosts: centos6_init
-  user: root
-  vars_prompt:
-    - name: admin_password
-      prompt: Admin user's password
-      private: yes
-      confirm: yes
-      when: admin_password == "" or admin_password is undefined
-  roles:
-    - centos6_init
