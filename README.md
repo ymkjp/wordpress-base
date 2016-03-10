@@ -64,11 +64,9 @@ Host centos6-general001
 EOF
 ```
 
-#### Setup Vagrant Server
+#### Setup Vagrant Server for local development environment
 
 * Run Vagrant commands after setting up
-* See Vagrant Box if you prefer
-  * [wordpress-base/package.box](https://dl.dropboxusercontent.com/u/6998388/wordpress-base/package.box)
 
 ```bash
 $ vagrant login  # Sign up to Hashicorp before logging in
@@ -77,17 +75,16 @@ $ vagrant provision  # Run this when `vagrant up` had problem due to network err
 $ vagrant destroy --force && vagrant up  # Run this to reset everything
 ```
 
-#### Setup CentOS 6 Host Server
+#### Setup CentOS 6 Host Server for production environment
 
 * Run commands below
 
 ```
-$ ansible-playbook -i hosts centos6_init.yml -k
-$ ansible-playbook -i hosts site.yml -k
+$ ansible-playbook --inventory-file hosts --extra-vars "@credentials.yml" --ask-pass site.yml
 ```
 
 #### Tips
 
 ```bash
-$ ansible-playbook --start-at='Set up iptables rules' --extra-vars "@credentials.yml" site.yml
+$ ansible-playbook --start-at='Set up iptables rules' --extra-vars "@credentials.yml" --ask-sudo-pass site.yml
 ```
