@@ -18,6 +18,7 @@ This Ansible playbook constructs WordPress, the FOSS content hosing server, into
 #### Runtime
 - Python v2.7
 - Vagrant v1.8 (optional)
+- ssh-copy-id (optional)
 
 ```bash
 # Example on OS X with Homebrew
@@ -25,6 +26,7 @@ xcode-select --install \
 && brew update \
 && brew install \
   python \
+  ssh-copy-id \
   Caskroom/cask/vagrant
 ```
 
@@ -35,7 +37,7 @@ xcode-select --install \
     * Run `openssl passwd -salt foo -1 bar` to generate `admin_password`
 * Rename the file, such as by `mv example.credentials.yml credentials.yml`
 
-```ruby
+```yml
 admin_password:       "__YOUR_PASSWORD__"
 wp_db_password:       "__YOUR_PASSWORD__"
 mysql_root_password:  "__YOUR_PASSWORD__"
@@ -55,18 +57,18 @@ $ pip install --requirement requirements.txt
 $ cat <<EOF >> ~/.ssh/config
 Host centos6-init001
     User root
-    HostName tk2-001-00001.vs.sakura.ne.jp
+    HostName example.com
     IdentitiesOnly yes
 
 Host centos6-general001
     User admin
-    HostName tk2-001-00001.vs.sakura.ne.jp
+    HostName example.com
 EOF
 ```
 
 #### Setup Vagrant Server for local development environment
 
-* Run Vagrant commands after setting up
+* Run Vagrant commands after setting up client
 
 ```bash
 $ vagrant login  # Sign up to Hashicorp before logging in
@@ -80,11 +82,12 @@ $ vagrant destroy --force && vagrant up  # Run this to reset everything
 * Run commands below
 
 ```
-$ ansible-playbook --inventory-file hosts --extra-vars "@credentials.yml" --ask-pass site.yml
+$ ssh-copy-id -i ~/.ssh/id_rsa.pub root@example.com
+$ ansible-playbook --inventory-file hosts --extra-vars "@credentials.yml" --private-key="~/.ssh/id_rsa" site.yml
 ```
 
 #### Tips
 
 ```bash
-$ ansible-playbook --start-at='Set up iptables rules' --extra-vars "@credentials.yml" --ask-sudo-pass site.yml
+$ ansible-playbook --start-at='Set up iptables rules' --extra-vars "@credentials.yml" site.yml
 ```
