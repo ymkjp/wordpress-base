@@ -44,10 +44,10 @@ mysql_root_password:  "__YOUR_PASSWORD__"
 newrelic_api_key:     "__YOUR_API_KEY__"
 ```
 
-* Install Ansible to your local client
+* Install Ansible and its 3rd party packages to your local client
 
 ```bash
-# Install Ansible and its 3rd party packages
+$ ansible-galaxy install --role-file=role_packages.yml
 $ pip install --requirement requirements.txt
 ```
 
@@ -83,8 +83,14 @@ $ vagrant destroy --force && vagrant up  # Run this to reset everything
 
 ```
 $ ssh-copy-id -i ~/.ssh/id_rsa.pub root@example.com
-$ ansible-playbook --inventory-file hosts --extra-vars "@credentials.yml" --private-key="~/.ssh/id_rsa" site.yml
+$ ansible-playbook --inventory-file hosts --extra-vars "@credentials.yml" --private-key="~/.ssh/id_rsa" --limit="centos6_init" site.yml
+$ ansible-playbook --inventory-file hosts --extra-vars "@credentials.yml" --private-key="~/.ssh/id_rsa" --limit="wordpress_server" site.yml
 ```
+
+* What are these commands doing?
+    * The command with `--limit="centos6_init"`
+    * The command with `--limit="wordpress_server"`
+
 
 #### Tips
 

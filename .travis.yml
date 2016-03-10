@@ -8,4 +8,5 @@ before_install:
  - sudo apt-get install -qq python-apt python-pycurl
 script:
   - echo localhost > inventory
+  - ansible-galaxy install --role-file=role_packages.yml
   - ansible-playbook --syntax-check -i inventory site.yml

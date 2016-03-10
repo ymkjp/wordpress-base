@@ -1,8 +1,5 @@
 # https://galaxy.ansible.com/intro
 
-# Run `ansible-galaxy` command bellow after adding new sources here
-# Now I'm not ignoring these roles by .gitignore to avoid unexpected updates
-
 # ```
 # $ ansible-galaxy install --role-file=role_packages.yml
 # ```
