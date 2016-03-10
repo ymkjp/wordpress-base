@@ -8,7 +8,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box_check_update = true
   config.ssh.insert_key = false
 
-  config.vm.define :wordpress_server do |node|
+  config.vm.define :dev_server do |node|
     node.vm.box = "bento/centos-6.7"
 
     node.vm.network :forwarded_port, guest: 80, host: 80

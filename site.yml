@@ -15,8 +15,8 @@
     - users
     - sshd_config
 
-- name: Be sure to exist admin user (Affect changes to Vagrant)
-  hosts: wordpress_server
+- name: Be sure to exist admin user
+  hosts: dev_server
   remote_user: root
   become: yes
   vars_prompt:
@@ -30,7 +30,7 @@
     - users
 
 - name: Install WordPress, MySQL, Nginx, and PHP-FPM
-  hosts: wordpress_server
+  hosts: wordpress_server:dev_server
   remote_user: admin
   become: yes
   vars_prompt:
