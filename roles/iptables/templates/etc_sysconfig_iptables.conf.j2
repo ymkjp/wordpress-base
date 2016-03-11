@@ -1,0 +1,42 @@
+*filter
+:INPUT   DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT  ACCEPT [0:0]
+:RH-Firewall-1-INPUT - [0:0]
+
+# Fail2ban https://github.com/resmo/ansible-role-fail2ban
+
+# Tag
+-A INPUT -j RH-Firewall-1-INPUT
+-A FORWARD -j RH-Firewall-1-INPUT
+
+# loop-back
+-A RH-Firewall-1-INPUT -i lo -j ACCEPT
+
+# Already connected
+-A RH-Firewall-1-INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# ping
+-A RH-Firewall-1-INPUT -p icmp --icmp-type any -m hashlimit --hashlimit-name t_icmp --hashlimit 1/m --hashlimit-burst 10 --hashlimit-mode srcip --hashlimit-htable-expire 120000 -j ACCEPT
+
+# DNS
+-A RH-Firewall-1-INPUT -p tcp --sport 53 -j ACCEPT
+-A RH-Firewall-1-INPUT -p udp --sport 53 -j ACCEPT
+
+# NTP
+-A RH-Firewall-1-INPUT -p tcp --sport 123 -j ACCEPT
+-A RH-Firewall-1-INPUT -p udp --sport 123 -j ACCEPT
+
+# SSH
+-A RH-Firewall-1-INPUT -p tcp -m state --syn --state NEW --dport 22 -m hashlimit --hashlimit-name t_sshd --hashlimit 1/m --hashlimit-burst 10 --hashlimit-mode srcip --hashlimit-htable-expire 120000 -j ACCEPT
+
+# HTTP, HTTPS
+-A RH-Firewall-1-INPUT -m state --state NEW -p tcp --dport 80 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -p udp --dport 80 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -p tcp --dport 443 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -p udp --dport 443 -j ACCEPT
+
+# Others
+-A RH-Firewall-1-INPUT -j REJECT --reject-with icmp-host-prohibited
+
+COMMIT

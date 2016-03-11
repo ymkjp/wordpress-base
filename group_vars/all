@@ -1,4 +1,8 @@
 ---
+# Server init
+admin_name: admin
+admin_public_key_path: "{{ admin_public_key_path | default('~/.ssh/id_rsa.pub') }}"
+
 # Which version of WordPress to deploy
 wp_version: 4.2.4
 wp_sha256sum: 42ca594afc709cbef8528a6096f5a1efe96dcf3164e7ce321e87d57ae015cc82
@@ -22,3 +26,14 @@ auto_up_disable: false
 #false = Development, minor, and major updates are all disabled
 #minor = Minor updates are enabled, development, and major updates are disabled
 core_update_level: true
+
+# Monitoring
+monitoring_email_dest: "{{ report_email_to | default('root@localhost') }}"
+fail2ban_config_destemail: "{{monitoring_email_dest}}"
+
+logwatch_email: "{{monitoring_email_dest}}"
+logwatch_detail: "low"            # The level of detail in the Logwatch report
+logwatch_range: "yesterday"       # The default time range for the Logwatch report
+logwatch_output: "stdout"         # The output method of the Logwatch report
+logwatch_format: "text"           # The format of the Logwatch report
+logwatch_cron_time: "daily"       # Cron special time specification nickname - must match with logwatch range!

@@ -1,0 +1,12 @@
+# https://galaxy.ansible.com/intro
+
+# ```
+# $ ansible-galaxy install --role-file=role_packages.yml
+# ```
+
+- src: resmo.fail2ban
+- src: williamyeh.fluentd
+- src: sivel.newrelic
+- src: nleutner.newrelic-php
+- src: geerlingguy.postfix
+- src: yatesr.timezone

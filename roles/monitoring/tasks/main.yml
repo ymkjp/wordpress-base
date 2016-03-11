@@ -1,0 +1,14 @@
+---
+
+- name: logwatch package installed
+  yum: name=logwatch state=present
+
+- name: Logwatch | Configure logwatch (/etc/logwatch/conf/logwatch.conf)
+  template:
+    src: etc_logwatch_conf_logwatch.conf.j2
+    dest: /etc/logwatch/conf/logwatch.conf
+
+- name: Create log files for Fail2Ban JAILS
+  file: path={{item}} state=touch
+  with_items:
+    - /var/log/auth.log

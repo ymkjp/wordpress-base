@@ -1,0 +1,14 @@
+---
+
+- name: Add a new user
+  user: name={{admin_name}} password={{ admin_password }} groups=wheel state=present
+
+- name: Allow wheel users to sudo
+  lineinfile: dest=/etc/sudoers regexp="^#\s*(%wheel\s+ALL=\(ALL\)\s+NOPASSWD{{':'}}\s+ALL)" line="\1" backrefs=yes state=present
+
+- name: Resister a public key
+  authorized_key: user={{ admin_name }} key="{{ item }}"
+  with_file:
+    - "{{ admin_authorized_key_path }}"
+  notify:
+    - Restart sshd
