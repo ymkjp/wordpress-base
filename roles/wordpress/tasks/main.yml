@@ -34,7 +34,7 @@
     login_password: "{{ mysql_root_password }}"
 
 - name: Copy WordPress config file
-  template: src=wp-config.php dest=/srv/wordpress/
+  template: src=wp-config.php.j2 dest=/srv/wordpress/
 
 - name: Change ownership of WordPress installation
   file: path=/srv/wordpress/ owner=wordpress group=wordpress state=directory recurse=yes
