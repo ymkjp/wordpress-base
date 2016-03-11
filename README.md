@@ -6,7 +6,7 @@ WordPress Base
 
 ## Introduction
 
-This Ansible playbook constructs WordPress, the FOSS content hosing server, into single node.
+This Ansible playbook constructs WordPress, the FOSS content management system, into single server node.
 
 
 ## Requirements
@@ -30,25 +30,30 @@ xcode-select --install \
   Caskroom/cask/vagrant
 ```
 
+
 ## Setups
 
 #### Setup Client
-* Edit `example.credentials.yml` to set your passwords and API Keys
-    * Run `openssl passwd -salt foo -1 bar` to generate `admin_password`
-* Rename the file, such as by `mv example.credentials.yml credentials.yml`
+* To get New Relic License key, generate it as following documents below
+    1. [Create your New Relic account | New Relic Documentation](https://docs.newrelic.com/docs/accounts-partnerships/accounts/account-setup/create-your-new-relic-account)
+    2. [License key | New Relic Documentation](https://docs.newrelic.com/docs/accounts-partnerships/accounts/account-setup/license-key)
 
-```yml
-admin_password:       "__YOUR_PASSWORD__"
-wp_db_password:       "__YOUR_PASSWORD__"
-mysql_root_password:  "__YOUR_PASSWORD__"
+* Run command below, and edit `credentials.yml` to set your passwords and API Keys
+
+```bash
+$ cat <<EOF > credentials.yml
+admin_password:       "$(openssl passwd -salt foo -1 bar)"  # password: "bar"
+wp_db_password:       "$(openssl rand -hex 16)"
+mysql_root_password:  "$(openssl rand -hex 16)"
 newrelic_api_key:     "__YOUR_API_KEY__"
+EOF
 ```
 
 * Install Ansible and its 3rd party packages to your local client
 
 ```bash
-$ ansible-galaxy install --role-file=role_packages.yml
 $ pip install --requirement requirements.txt
+$ ansible-galaxy install --role-file=role_packages.yml
 ```
 
 * Edit ``~/.ssh/config`` corresponding to hosts (No need for Vagrant)
@@ -79,21 +84,18 @@ $ vagrant destroy --force && vagrant up  # Run this to reset everything
 
 #### Setup CentOS 6 Host Server for production environment
 
-* Run commands below
-
-```
-$ ssh-copy-id -i ~/.ssh/id_rsa.pub root@example.com
-$ ansible-playbook --inventory-file hosts --extra-vars "@credentials.yml" --private-key="~/.ssh/id_rsa" --limit="centos6_init" site.yml
-$ ansible-playbook --inventory-file hosts --extra-vars "@credentials.yml" --private-key="~/.ssh/id_rsa" --limit="wordpress_server" site.yml
-```
-
-* What are these commands doing?
-    * The command with `--limit="centos6_init"`
-    * The command with `--limit="wordpress_server"`
-
-
-#### Tips
+* Run commands below, and wait for a few hours or so (up to the server spec)
+    * Use `--check` option if you prefer to run as dry-run mode
 
 ```bash
-$ ansible-playbook --start-at='Set up iptables rules' --extra-vars "@credentials.yml" site.yml
+$ ssh-copy-id -i ~/.ssh/id_rsa.pub root@example.com
+$ ansible-playbook site.yml --inventory-file hosts --extra-vars "@credentials.yml" --private-key="~/.ssh/id_rsa" --limit="centos6_init"
+$ ansible-playbook site.yml --inventory-file hosts --extra-vars "@credentials.yml" --private-key="~/.ssh/id_rsa" --limit="wordpress_server"
+```
+
+#### How to know what are these commands above doing?
+
+```bash
+$ ansible-playbook site.yml --list-tasks
+$ ansible-playbook site.yml --list-hosts
 ```
