@@ -60,6 +60,6 @@
     - resmo.fail2ban
     - williamyeh.fluentd
     - sivel.newrelic
-    - nleutner.newrelic-php
+    - announce.newrelic-php
     - geerlingguy.postfix
     - yatesr.timezone

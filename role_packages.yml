@@ -7,6 +7,6 @@
 - src: resmo.fail2ban
 - src: williamyeh.fluentd
 - src: sivel.newrelic
-- src: nleutner.newrelic-php
+- src: announce.newrelic-php
 - src: geerlingguy.postfix
 - src: yatesr.timezone
