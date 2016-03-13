@@ -1,14 +1,14 @@
 ---
 
-- name: Install Mysql packages
-  yum: name={{ mysql_url }}/{{ item }}-{{ mysql_ver }}.rpm state=present
+- name: Add repository
+  yum: name={{ item }} state=present
   with_items:
-    - MySQL-client
-    - MySQL-shared-compat
-    - MySQL-shared
-    - MySQL-devel
-    - MySQL-embedded
-    - MySQL-server
+    - "http://dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm"
+
+- name: Install MySQL packages
+  yum: name={{ item }} enablerepo="mysql56-community" state=present
+  with_items:
+    - mysql-community-server
   retries: 3
   delay: 10
 
@@ -27,7 +27,7 @@
   file: path=/var/lib/mysql owner=mysql recurse=yes
 
 - name: Create log files
-  file: path={{ item.path }} owner=mysql state=touch mode="u=rw,g=r,o=r"
+  copy: force=no src=null dest={{ item.path }} owner=mysql group=mysql mode="u=rw,g=r,o=r"
   with_items:
     - path: '/var/log/mysql-slow.log'
     - path: '/var/log/mysql-query.log'
@@ -38,23 +38,15 @@
   - restart mysql
 
 - name: Start Mysql Service
-  service: name=mysql state=started enabled=yes
+  service: name=mysqld state=started enabled=yes
 
-- name: Register defualt mysql password
-  shell: |
-    [[ -f /root/.mysql_secret ]] \
-    && cat /root/.mysql_secret | awk '{print $NF}' | awk '/./'
-  register: mysql_secret
-  ignore_errors: True
+- name: Setup mysql root password
+  mysql_user:
+    name: root
+    password: "{{ mysql_root_password }}"
+    state: present
 
-- debug: msg="[MySQL] Defualt root password {{ mysql_secret }}"
-
-- name: Setup mysql root password instead of default root password
-  shell: |
-    mysql -uroot --password={{ mysql_secret.stdout }} \
-    -e "SET PASSWORD = PASSWORD('{{ mysql_root_password }}');"
-  when: mysql_secret | success
-
-- name: Purge default root password file after setting root password
-  file: path=/root/.mysql_secret state=absent
-  when: mysql_secret | success
+- name: Create root configuration file
+  template: src=root_my.cnf.j2 dest="/root/.my.cnf" owner=root mode=0600
+  notify:
+  - restart mysql
